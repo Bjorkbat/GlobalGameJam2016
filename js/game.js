@@ -66,9 +66,9 @@ var Game = {
     this.scene.add(this.groundPlane);
 
     // Add the wells
-    this.wells = new Game.Wells();
+    this.wells = new Game.WellCluster();
     this.wells.makeWells();
-    this.scene.add(this.wells.wellGroup);
+    this.scene.add(this.wells);
 
     // Add the altar
     this.altar = new Game.Altar();
@@ -95,7 +95,7 @@ var Game = {
 
     // Add things player can collide into
     this.player.addCollidable(this.altar.altar);
-    this.player.addCollidable(this.wells.wellGroup);
+    this.player.addCollidable(this.wells);
 
     this.render();
   },
@@ -112,8 +112,7 @@ var Game = {
     }
 
     // Rotate wells as well
-    Game.wells.wellGroup.rotation.y += (0.002 * flip * -1);
-    Game.renderer.render(Game.scene, Game.camera);
+    Game.wells.rotation.y += (0.002 * flip * -1);
 
     // Update player
     Game.player.update(clockdelta, Game.camera, Game.tetrominos);
@@ -122,6 +121,7 @@ var Game = {
     for (var i = 0; i < Game.tetrominos.length; i ++) {
       Game.tetrominos[i].update(clockdelta);
     }
+    Game.renderer.render(Game.scene, Game.camera);
   },
 
   initPointerLock: function() {

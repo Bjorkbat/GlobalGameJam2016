@@ -4,79 +4,58 @@
  * * * * */
 
 if (Game !== undefined) {
-  Game.Wells = function() {
+  Game.Well = function(type) {
+    THREE.Object3D.call(this);
 
-    this.INNER_RADIUS = 3;
-    this.OUTER_RADIUS = 5;
-    this.THICKNESS = 2;
+    var INNER_RADIUS = 3;
+    var OUTER_RADIUS = 5;
+    var THICKNESS = 2;
 
-    this.COLOR = 0xB9BED6;
-    this.MATERIAL = new THREE.MeshPhongMaterial({
-      color: this.COLOR
+    var COLOR = 0xB9BED6;
+    var MATERIAL = new THREE.MeshPhongMaterial({
+      color: COLOR
     });
 
-    this.wellGroup = new THREE.Object3D();
-    this.groupRadius = 55;
-    this.radianPerWell = Math.PI * 2 / 7;
-    this.rotationAxis = new THREE.Vector3(0, 1, 0);
-    this.wellPosition = new THREE.Vector3(this.groupRadius, 3.5, 0);
+    // Make outer wall
+    var wellOuterGeo = new THREE.CylinderGeometry(
+      OUTER_RADIUS,
+      OUTER_RADIUS,
+      THICKNESS,
+      16,
+      1,
+      true
+    );
+    wellOuter = new THREE.Mesh(wellOuterGeo, MATERIAL);
+    this.add(wellOuter);
+
+    // Then the inner wall
+    var wellInnerGeo = new THREE.CylinderGeometry(
+      INNER_RADIUS,
+      INNER_RADIUS,
+      THICKNESS,
+      16,
+      1,
+      true
+    );
+    wellInnerGeo.scale(-1, 1, 1);
+    var wellInner = new THREE.Mesh(wellInnerGeo, MATERIAL);
+    this.add(wellInner);
+
+    // Now add the cap
+    var capGeo = new THREE.RingGeometry(INNER_RADIUS, OUTER_RADIUS, 16);
+    var cap = new THREE.Mesh(capGeo, MATERIAL);
+    cap.lookAt(new THREE.Vector3(0, 1, 0));
+    cap.position.y = THICKNESS / 2;
+    this.add(cap);
+
+    // Now create a special tetromino above the well to indicate what kind
+    // of well it is
+    var tetromino = new Game.Tetromino(type, 2);
+    this.add(tetromino);
+    this.tetrominoType = type;
+    tetromino.translateY(8);
   }
 
-  Game.Wells.prototype.makeWells = function() {
-
-    // Start off by generating the outer wall of the well
-    for(var i = 0; i < 8; i ++) {
-
-      var well = new THREE.Object3D();
-      var wellOuterGeo = new THREE.CylinderGeometry(
-        this.OUTER_RADIUS,
-        this.OUTER_RADIUS,
-        this.THICKNESS,
-        16,
-        1,
-        true
-      );
-      var wellOuter = new THREE.Mesh(wellOuterGeo, this.MATERIAL);
-      well.add(wellOuter);
-
-      // Then the inner wall
-      var wellInnerGeo = new THREE.CylinderGeometry(
-        this.INNER_RADIUS,
-        this.INNER_RADIUS,
-        this.THICKNESS,
-        16,
-        1,
-        true
-      );
-      wellInnerGeo.scale(-1, 1, 1);
-      var wellInner = new THREE.Mesh(wellInnerGeo, this.MATERIAL);
-      well.add(wellInner);
-
-      // Now add the cap
-      var capGeo = new THREE.RingGeometry(
-        this.INNER_RADIUS,
-        this.OUTER_RADIUS,
-        16
-      );
-      var cap = new THREE.Mesh(capGeo, this.MATERIAL);
-      cap.lookAt(new THREE.Vector3(0, 1, 0));
-      cap.position.y = this.THICKNESS / 2;
-      well.add(cap);
-
-      // Now create a special tetromino above the well to indicate what kind
-      // of well it is
-      var tetromino = new Game.Tetromino(Game.blockTypes[i], 2);
-      well.add(tetromino);
-      well.tetrominoType = Game.blockTypes[i];
-      tetromino.translateY(8);
-
-      // Translate the whole thing
-      this.wellPosition.applyAxisAngle(this.rotationAxis, this.radianPerWell);
-      well.translateX(this.wellPosition.x);
-      well.translateY(this.wellPosition.y);
-      well.translateZ(this.wellPosition.z);
-      this.wellGroup.add(well);
-    }
-
-  }
+  Game.Well.prototype = new THREE.Object3D();
+  Game.Well.prototype.constructor = Game.Well;
 }
