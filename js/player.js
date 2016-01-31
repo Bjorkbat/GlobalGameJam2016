@@ -15,10 +15,19 @@ if (Game !== undefined) {
     var moveLeft = false;
     var moveRight = false;
 
-    var raycaster = new THREE.Raycaster();
+    var mouseRaycaster = new THREE.Raycaster();
     var mouse = new THREE.Vector2(0, 0);
     var lookDirection = new THREE.Vector3(0, 5, 0);
     this.velocity = new THREE.Vector3(0, 0, 0);
+
+    var collisionRaycaster = new THREE.Raycaster(
+      new THREE.Vector3(0, 0, 0),
+      new THREE.Vector3(0, 0, 0),
+      0,
+      2
+    );
+    this.collidables = [];
+
     this.character = new THREE.Object3D();
 
     // BEGIN BUILD PLAYER
@@ -125,6 +134,10 @@ if (Game !== undefined) {
     document.addEventListener('keyup', onKeyUp, false);
     document.addEventListener('mousemove', onMouseOver, false);
 
+    this.addCollidable = function(object) {
+      this.collidables.push(object);
+    }
+
     this.update = function(delta, camera) {
       this.velocity.x = 0;
       this.velocity.z = 0;
@@ -147,12 +160,26 @@ if (Game !== undefined) {
         this.velocity.z += -20 * delta;
       }
 
+      // Cast a ray from position to velocity direction to see if any objects
+      // are in player's way
+      var rayOrigin = this.position.clone();
+      rayOrigin.y = 3.5;
+      var rayDirection = this.velocity.clone();
+      rayDirection.normalize();
+      collisionRaycaster.set(rayOrigin, rayDirection);
+      var objects = collisionRaycaster.intersectObjects(this.collidables, true);
+      if (objects.length > 0) {
+        this.velocity.x = 0;
+        this.velocity.z = 0;
+        console.log("what the fuck?");
+      }
+
       this.translateX(this.velocity.x);
       this.translateZ(this.velocity.z);
 
       // Change look direction
-      raycaster.setFromCamera(mouse, camera);
-      var planeIntersection = raycaster.intersectObject(Game.groundPlane);
+      mouseRaycaster.setFromCamera(mouse, camera);
+      var planeIntersection = mouseRaycaster.intersectObject(Game.groundPlane);
       if (planeIntersection.length > 0) {
         lookDirection.x = planeIntersection[0].point.x;
         lookDirection.z = planeIntersection[0].point.z;

@@ -19,7 +19,7 @@ if (Game !== undefined) {
     this.groupRadius = 55;
     this.radianPerWell = Math.PI * 2 / 7;
     this.rotationAxis = new THREE.Vector3(0, 1, 0);
-    this.wellPosition = new THREE.Vector3(this.groupRadius, 2.5, 0);
+    this.wellPosition = new THREE.Vector3(this.groupRadius, 3.5, 0);
   }
 
   Game.Wells.prototype.makeWells = function() {

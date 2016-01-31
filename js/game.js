@@ -91,7 +91,11 @@ var Game = {
     this.player = new Game.Player();
     this.player.translateY(4);
     this.player.translateX(35);
-    this.scene.add(this.player)
+    this.scene.add(this.player);
+
+    // Add things player can collide into
+    this.player.addCollidable(this.altar.altar);
+    this.player.addCollidable(this.wells.wellGroup);
 
     this.render();
   },

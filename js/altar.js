@@ -55,7 +55,7 @@ if (Game !== undefined) {
     this.altar.add(cap);
 
     // Translate
-    this.altar.position.y = 5;
+    this.altar.position.y = 3.5;
   };
 
   // Takes an array of tetrominos (really, any 3D object) and adds them
