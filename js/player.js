@@ -117,19 +117,23 @@ if (Game !== undefined) {
       this.velocity.z = 0;
 
       if (moveForward) {
-        this.velocity.x += -1; this.velocity.z += -1;
+        this.velocity.x += -20 * delta;
+        this.velocity.z += -20 * delta;
         this.character.lookAt(this.velocity);
       }
       if (moveBackward) {
-        this.velocity.x += 1; this.velocity.z += 1;
+        this.velocity.x += 20 * delta;
+        this.velocity.z += 20 * delta;
         this.character.lookAt(this.velocity);
       }
       if (moveLeft) {
-        this.velocity.x += -1; this.velocity.z += 1;
+        this.velocity.x += -20 * delta;
+        this.velocity.z += 20 * delta;
         this.character.lookAt(this.velocity);
       }
       if (moveRight) {
-        this.velocity.x += 1; this.velocity.z += -1;
+        this.velocity.x += 20 * delta;
+        this.velocity.z += -20 * delta;
         this.character.lookAt(this.velocity);
       }
 

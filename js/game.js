@@ -8,6 +8,7 @@ var Game = {
 
     Game.initPointerLock();
 
+    // Create the scene
     this.scene = new THREE.Scene();
 
     var aspect = window.innerWidth / window.innerHeight;
@@ -21,6 +22,10 @@ var Game = {
       1000
     );
 
+    // Add the clock
+    this.clock = new THREE.Clock(true);
+
+    // Create the camera;
     this.camera.position.x = 200;
     this.camera.position.y = 200;
     this.camera.position.z = 200;
@@ -77,7 +82,7 @@ var Game = {
 
     // Add player character
     this.player = new Game.Player();
-    this.player.translateY(5);
+    this.player.translateY(4);
     this.player.translateX(35);
     this.scene.add(this.player)
 
@@ -97,7 +102,7 @@ var Game = {
     Game.renderer.render(Game.scene, Game.camera);
 
     // Update player
-    Game.player.update();
+    Game.player.update(Game.clock.getDelta());
   },
 
   initPointerLock: function() {
