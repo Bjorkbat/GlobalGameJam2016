@@ -97,6 +97,9 @@ var Game = {
     this.player.addCollidable(this.altar.altar);
     this.player.addCollidable(this.wells);
 
+    // Add the timer
+    this.timer = new Game.Timer();
+
     this.render();
   },
 
@@ -121,6 +124,9 @@ var Game = {
     for (var i = 0; i < Game.tetrominos.length; i ++) {
       Game.tetrominos[i].update(clockdelta);
     }
+
+    // Update time
+    Game.timer.updateTime();
     Game.renderer.render(Game.scene, Game.camera);
   },
 

@@ -159,8 +159,12 @@ if (Game !== undefined) {
         var intersectedWells = raycaster.intersectObject(Game.wells, true);
         if (intersectedWells.length > 0) {
           if(intersectedWells[0].object.parent.tetrominoType == this.tetrominoType) {
-            Game.scene.remove(this);
+            Game.timer.addTime();
+          } else {
+            Game.timer.subtractTime();
           }
+          Game.scene.remove(this);
+          speed = 0;
         }
       }
     }
