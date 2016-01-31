@@ -95,6 +95,9 @@ var Game = {
     // Rotate wells as well
     Game.wells.wellGroup.rotation.y += (0.002 * flip * -1);
     Game.renderer.render(Game.scene, Game.camera);
+
+    // Update player
+    Game.player.update();
   },
 
   initPointerLock: function() {
