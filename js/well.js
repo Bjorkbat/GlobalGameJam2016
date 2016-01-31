@@ -10,7 +10,7 @@ if (Game !== undefined) {
     this.OUTER_RADIUS = 5;
     this.THICKNESS = 2;
 
-    this.COLOR = 0x7BD6D6;
+    this.COLOR = 0xB9BED6;
     this.MATERIAL = new THREE.MeshPhongMaterial({
       color: this.COLOR
     });

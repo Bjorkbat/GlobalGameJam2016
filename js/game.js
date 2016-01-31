@@ -63,8 +63,16 @@ var Game = {
     // Add our tetrominos
     this.tetrominos = [];
     this.tetrominos.push(new Game.Tetromino("i"));
-    for (var i = 0; i < this.tetrominos.length; i ++) {
-      this.altar.addTetromino(this.tetrominos[i]);
+    this.tetrominos.push(new Game.Tetromino("o"));
+    this.tetrominos.push(new Game.Tetromino("t"));
+    this.tetrominos.push(new Game.Tetromino("j"));
+    this.tetrominos.push(new Game.Tetromino("l"));
+    this.tetrominos.push(new Game.Tetromino("s"));
+    this.tetrominos.push(new Game.Tetromino("z"));
+
+    this.altar.addTetrominos(this.tetrominos);
+    for(var i = 0; i < this.tetrominos.length; i ++) {
+      this.scene.add(this.tetrominos[i].tetromino);
     }
 
     this.render();

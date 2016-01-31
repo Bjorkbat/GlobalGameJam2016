@@ -5,7 +5,7 @@
 if (Game !== undefined) {
   Game.Ground = function() {
 
-    this.COLOR = 0x7BD6D6;
+    this.COLOR = 0xB9BED6;
     this.CAP_TEXTURE = new THREE.TextureLoader().load("./img/stone_cap.jpg");
     this.CAP_MATERIAL = new THREE.MeshPhongMaterial({ color: this.COLOR,
       bumpMap: this.CAP_TEXTURE, bumpScale: 1});
