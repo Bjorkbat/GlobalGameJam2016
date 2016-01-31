@@ -220,7 +220,7 @@ if (Game !== undefined) {
 
         // If the throw flag is active, then throw the tetromino
         if(throwTetromino) {
-          tetromino.throw();
+          tetromino.throw(this.velocity);
           tetromino = null;
           throwTetromino = false;
         }

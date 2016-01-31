@@ -18,6 +18,14 @@ if (Game !== undefined) {
     var friction = 10;
     var gravity = 0.5;
 
+    var raycaster = new THREE.Raycaster(
+      new THREE.Vector3(0, 0, 0),
+      new THREE.Vector3(0, -1, 0),
+      0,
+      100
+    );
+    var rayDirection = new THREE.Vector3(0, -1, 0);
+
     switch (type) {
 
       case "i":
@@ -130,7 +138,7 @@ if (Game !== undefined) {
       default:
         console.log("Not a valid tetromino" + type);
     }
-    this.type = type;
+    this.tetrominoType = type;
 
     this.update = function(delta) {
       this.translateZ(speed * delta);
@@ -143,9 +151,18 @@ if (Game !== undefined) {
         if (this.position.y > this.homeHeight) {
           this.position.y -= gravity;
         }
-      }
 
-      // TODO: Cast a ray and see if it intersects with one of the wells
+        var rayOrigin = this.position.clone();
+        rayOrigin.y = 10;
+        var rayDirection = new THREE.Vector3(0, -1, 0);
+        raycaster.set(rayOrigin, rayDirection);
+        var intersectedWells = raycaster.intersectObject(Game.wells, true);
+        if (intersectedWells.length > 0) {
+          if(intersectedWells[0].object.parent.tetrominoType == this.tetrominoType) {
+            Game.scene.remove(this);
+          }
+        }
+      }
     }
 
     this.throw = function() {
