@@ -14,6 +14,10 @@ if (Game !== undefined) {
     var moveBackward = false;
     var moveLeft = false;
     var moveRight = false;
+
+    var raycaster = new THREE.Raycaster();
+    var mouse = new THREE.Vector2(0, 0);
+    var lookDirection = new THREE.Vector3(0, 5, 0);
     this.velocity = new THREE.Vector3(0, 0, 0);
     this.character = new THREE.Object3D();
 
@@ -109,38 +113,66 @@ if (Game !== undefined) {
       }
     };
 
+    var onMouseOver = function(event) {
+
+      // Change the mouse's coordinates
+      mouse.x = (event.clientX / Game.renderer.domElement.clientWidth) * 2 - 1;
+      mouse.y = - (event.clientY / Game.renderer.domElement.clientHeight) * 2 + 1;
+
+    }
+
     document.addEventListener('keydown', onKeyDown, false);
     document.addEventListener('keyup', onKeyUp, false);
+    document.addEventListener('mousemove', onMouseOver, false);
 
-    this.update = function(delta) {
+    this.update = function(delta, camera) {
       this.velocity.x = 0;
       this.velocity.z = 0;
 
+      // Change move direction
       if (moveForward) {
         this.velocity.x += -20 * delta;
         this.velocity.z += -20 * delta;
-        this.character.lookAt(this.velocity);
       }
       if (moveBackward) {
         this.velocity.x += 20 * delta;
         this.velocity.z += 20 * delta;
-        this.character.lookAt(this.velocity);
       }
       if (moveLeft) {
         this.velocity.x += -20 * delta;
         this.velocity.z += 20 * delta;
-        this.character.lookAt(this.velocity);
       }
       if (moveRight) {
         this.velocity.x += 20 * delta;
         this.velocity.z += -20 * delta;
-        this.character.lookAt(this.velocity);
       }
 
       this.translateX(this.velocity.x);
       this.translateZ(this.velocity.z);
+
+      // Change look direction
+      raycaster.setFromCamera(mouse, camera);
+      var planeIntersection = raycaster.intersectObject(Game.groundPlane);
+      if (planeIntersection.length > 0) {
+        lookDirection.x = planeIntersection[0].point.x;
+        lookDirection.z = planeIntersection[0].point.z;
+      }
+      this.character.lookAtWorld(lookDirection);
+
     }
   }
   Game.Player.prototype = new THREE.Object3D();
   Game.Player.prototype.constructor = Game.Player;
 }
+
+THREE.Object3D.prototype.worldToLocal = function ( vector ) {
+    if ( !this.__inverseMatrixWorld ) this.__inverseMatrixWorld = new THREE.Matrix4();
+    return  vector.applyMatrix4( this.__inverseMatrixWorld.getInverse( this.matrixWorld ));
+};
+
+
+THREE.Object3D.prototype.lookAtWorld = function( vector ) {
+   vector = vector.clone();
+   this.parent.worldToLocal( vector );
+   this.lookAt( vector );
+};

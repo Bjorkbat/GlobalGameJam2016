@@ -56,6 +56,13 @@ var Game = {
       this.scene.add(this.ground.cylinders[i]);
     }
 
+    // Add an invisible ground plane, for tracking user's mouse
+    var groundPlaneGeo = new THREE.PlaneGeometry(500, 500);
+    var groundPlaneMat = new THREE.MeshBasicMaterial({visible: false});
+    this.groundPlane = new THREE.Mesh(groundPlaneGeo, groundPlaneMat);
+    this.groundPlane.rotation.x = -Math.PI / 2;
+    this.scene.add(this.groundPlane);
+
     // Add the wells
     this.wells = new Game.Wells();
     this.wells.makeWells();
@@ -102,7 +109,7 @@ var Game = {
     Game.renderer.render(Game.scene, Game.camera);
 
     // Update player
-    Game.player.update(Game.clock.getDelta());
+    Game.player.update(Game.clock.getDelta(), Game.camera);
   },
 
   initPointerLock: function() {
