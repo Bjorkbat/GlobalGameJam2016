@@ -197,6 +197,8 @@ if (Game !== undefined) {
 
       this.translateX(this.velocity.x);
       this.translateZ(this.velocity.z);
+      camera.position.x += this.velocity.x;
+      camera.position.z += this.velocity.z;
 
       // Change look direction
       mouseRaycaster.setFromCamera(mouse, camera);

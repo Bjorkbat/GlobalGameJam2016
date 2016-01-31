@@ -4,14 +4,14 @@
 
 if (Game !== undefined) {
 
-  Game.Tetromino = function(type) {
+  Game.Tetromino = function(type, scale) {
     THREE.Object3D.call(this);
 
     this.homeHeight = 0;
 
     var COLOR = 0xFF2546;
     var MATERIAL = new THREE.MeshPhongMaterial({color: COLOR});
-    var BLOCK_WIDTH = 1;
+    var BLOCK_WIDTH = 1 * (scale || 1);
     var HOVER = 1;
 
     var speed = 0;
@@ -26,15 +26,15 @@ if (Game !== undefined) {
           BLOCK_WIDTH * 4, BLOCK_WIDTH);
         var iObject = new THREE.Mesh(iGeo, MATERIAL);
         this.add(iObject);
-        iObject.translateY(1);
-        this.position.y = 1.5;
+        iObject.translateY(BLOCK_WIDTH);
+        this.position.y = 1.5 * (scale || 1);
         break;
 
       case "o":
         var oGeo = new THREE.BoxGeometry(BLOCK_WIDTH * 2,
           BLOCK_WIDTH * 2, BLOCK_WIDTH);
         this.add(new THREE.Mesh(oGeo, MATERIAL));
-        this.position.y = 1.5;
+        this.position.y = 1.5 * (scale || 1);
         break;
 
       case "t":
@@ -44,14 +44,14 @@ if (Game !== undefined) {
           BLOCK_WIDTH, BLOCK_WIDTH);
         var tTop = new THREE.Mesh(tTopGeo, MATERIAL);
         this.add(tTop);
-        tTop.translateY(1);
+        tTop.translateY(BLOCK_WIDTH);
 
         // Add bottom of T
         var tBottomGeo = new THREE.BoxGeometry(BLOCK_WIDTH,
           BLOCK_WIDTH, BLOCK_WIDTH);
         var tBottom = new THREE.Mesh(tBottomGeo, MATERIAL);
         this.add(tBottom);
-        this.position.y = 1;
+        this.position.y = 1 * (scale || 1);
         break;
 
       case "j":
@@ -61,7 +61,7 @@ if (Game !== undefined) {
           BLOCK_WIDTH, BLOCK_WIDTH);
         var jTop = new THREE.Mesh(jTopGeo, MATERIAL);
         this.add(jTop);
-        jTop.translateY(1);
+        jTop.translateY(BLOCK_WIDTH);
 
         // Add bottom of J
         var jBottomGeo = new THREE.BoxGeometry(BLOCK_WIDTH,
@@ -69,7 +69,7 @@ if (Game !== undefined) {
         var jBottom = new THREE.Mesh(jBottomGeo, MATERIAL);
         this.add(jBottom);
         jBottom.translateX(BLOCK_WIDTH);
-        this.position.y = 1;
+        this.position.y = 1 * (scale || 1);
         break;
 
       case "l":
@@ -79,14 +79,14 @@ if (Game !== undefined) {
           BLOCK_WIDTH, BLOCK_WIDTH);
         var lTop = new THREE.Mesh(lTopGeo, MATERIAL);
         this.add(lTop);
-        lTop.translateY(1);
+        lTop.translateY(BLOCK_WIDTH);
 
         var lBottomGeo = new THREE.BoxGeometry(BLOCK_WIDTH, BLOCK_WIDTH,
           BLOCK_WIDTH);
         var lBottom = new THREE.Mesh(lBottomGeo, MATERIAL);
         this.add(lBottom);
         lBottom.translateX(-BLOCK_WIDTH);
-        this.position.y = 1;
+        this.position.y = 1 * (scale || 1);
         break;
 
       case "s":
@@ -96,16 +96,16 @@ if (Game !== undefined) {
           BLOCK_WIDTH);
         var sTop = new THREE.Mesh(sTopGeo, MATERIAL);
         this.add(sTop);
-        sTop.translateY(1);
-        sTop.translateX(0.5);
+        sTop.translateY(BLOCK_WIDTH);
+        sTop.translateX(BLOCK_WIDTH / 2);
 
         // Add bottom of S
         var sBottomGeo = new THREE.BoxGeometry(BLOCK_WIDTH * 2, BLOCK_WIDTH,
           BLOCK_WIDTH);
         var sBottom = new THREE.Mesh(sBottomGeo, MATERIAL);
         this.add(sBottom);
-        sBottom.translateX(-0.5);
-        this.position.y = 1;
+        sBottom.translateX(-BLOCK_WIDTH / 2);
+        this.position.y = 1 * (scale || 1);
         break;
 
       case "z":
@@ -115,16 +115,16 @@ if (Game !== undefined) {
           BLOCK_WIDTH);
         var zTop = new THREE.Mesh(zTopGeo, MATERIAL);
         this.add(zTop);
-        zTop.translateY(1);
-        zTop.translateX(-0.5);
+        zTop.translateY(BLOCK_WIDTH);
+        zTop.translateX(-BLOCK_WIDTH / 2);
 
         // Add bottom of Z
         var zBottomGeo = new THREE.BoxGeometry(BLOCK_WIDTH * 2, BLOCK_WIDTH,
           BLOCK_WIDTH);
         var zBottom = new THREE.Mesh(zBottomGeo, MATERIAL);
         this.add(zBottom);
-        zBottom.translateX(0.5);
-        this.position.y = 1;
+        zBottom.translateX(BLOCK_WIDTH / 2);
+        this.position.y = 1 * (scale || 1);
         break;
 
       default:

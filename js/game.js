@@ -8,6 +8,8 @@ var Game = {
 
     Game.initPointerLock();
 
+    this.blockTypes = ["i", "o", "t", "j", "l", "s", "z"];
+
     // Create the scene
     this.scene = new THREE.Scene();
 
@@ -74,13 +76,9 @@ var Game = {
 
     // Add our tetrominos
     this.tetrominos = [];
-    this.tetrominos.push(new Game.Tetromino("i"));
-    this.tetrominos.push(new Game.Tetromino("o"));
-    this.tetrominos.push(new Game.Tetromino("t"));
-    this.tetrominos.push(new Game.Tetromino("j"));
-    this.tetrominos.push(new Game.Tetromino("l"));
-    this.tetrominos.push(new Game.Tetromino("s"));
-    this.tetrominos.push(new Game.Tetromino("z"));
+    for(var i = 0; i < this.blockTypes.length; i ++) {
+      this.tetrominos.push(new Game.Tetromino(this.blockTypes[i]));
+    }
 
     this.altar.addTetrominos(this.tetrominos);
     for(var i = 0; i < this.tetrominos.length; i ++) {
@@ -92,6 +90,8 @@ var Game = {
     this.player.translateY(4);
     this.player.translateX(35);
     this.scene.add(this.player);
+
+    this.camera.position.x += 35;
 
     // Add things player can collide into
     this.player.addCollidable(this.altar.altar);

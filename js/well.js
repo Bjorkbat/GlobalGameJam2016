@@ -63,6 +63,12 @@ if (Game !== undefined) {
       cap.position.y = this.THICKNESS / 2;
       well.add(cap);
 
+      // Now create a special tetromino above the well to indicate what kind
+      // of well it is
+      var tetromino = new Game.Tetromino(Game.blockTypes[i], 2);
+      well.add(tetromino);
+      tetromino.translateY(8);
+
       // Translate the whole thing
       this.wellPosition.applyAxisAngle(this.rotationAxis, this.radianPerWell);
       well.translateX(this.wellPosition.x);
