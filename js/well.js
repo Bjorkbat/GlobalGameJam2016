@@ -67,6 +67,7 @@ if (Game !== undefined) {
       // of well it is
       var tetromino = new Game.Tetromino(Game.blockTypes[i], 2);
       well.add(tetromino);
+      well.tetrominoType = Game.blockTypes[i];
       tetromino.translateY(8);
 
       // Translate the whole thing

@@ -144,6 +144,8 @@ if (Game !== undefined) {
           this.position.y -= gravity;
         }
       }
+
+      // TODO: Cast a ray and see if it intersects with one of the wells
     }
 
     this.throw = function() {
