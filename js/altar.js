@@ -70,9 +70,9 @@ if (Game !== undefined) {
       this.tetraPosition.applyAxisAngle(this.ROT_AXIS, radiansPerTetra);
 
       // Apply position to tetromino
-      tetrominos[i].tetromino.translateX(this.tetraPosition.x);
-      tetrominos[i].tetromino.translateY(this.tetraPosition.y);
-      tetrominos[i].tetromino.translateZ(this.tetraPosition.z);
+      tetrominos[i].translateX(this.tetraPosition.x);
+      tetrominos[i].translateY(this.tetraPosition.y);
+      tetrominos[i].translateZ(this.tetraPosition.z);
     }
 
   };

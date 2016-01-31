@@ -29,6 +29,8 @@ if (Game !== undefined) {
     this.collidables = [];
 
     this.character = new THREE.Object3D();
+    var tetromino;
+    var throwTetromino = false;
 
     // BEGIN BUILD PLAYER
     // Construct the legs
@@ -128,17 +130,24 @@ if (Game !== undefined) {
       mouse.x = (event.clientX / Game.renderer.domElement.clientWidth) * 2 - 1;
       mouse.y = - (event.clientY / Game.renderer.domElement.clientHeight) * 2 + 1;
 
+    };
+
+    var onMouseDown = function(event) {
+      if (tetromino) {
+        throwTetromino = true;
+      }
     }
 
     document.addEventListener('keydown', onKeyDown, false);
     document.addEventListener('keyup', onKeyUp, false);
     document.addEventListener('mousemove', onMouseOver, false);
+    document.addEventListener('mousedown', onMouseDown, false);
 
     this.addCollidable = function(object) {
       this.collidables.push(object);
     }
 
-    this.update = function(delta, camera) {
+    this.update = function(delta, camera, tetrominos) {
       this.velocity.x = 0;
       this.velocity.z = 0;
 
@@ -171,7 +180,19 @@ if (Game !== undefined) {
       if (objects.length > 0) {
         this.velocity.x = 0;
         this.velocity.z = 0;
-        console.log("what the fuck?");
+      }
+
+      // Use the same collider ray to detect for collisions with the tetrominos
+      // by the altar.  If you collide with one, pick it up
+      rayOrigin.y = 6.5;
+      collisionRaycaster.set(rayOrigin, rayDirection);
+      var intersectedTetromino = collisionRaycaster.intersectObjects(tetrominos, true);
+      if( intersectedTetromino.length > 0) {
+        // Pick up the tetromino if you haven't picked one up already
+        if (tetromino === undefined || tetromino === null) {
+          tetromino = intersectedTetromino[0].object.parent;
+          tetromino.position.y = this.position.y + 8;
+        }
       }
 
       this.translateX(this.velocity.x);
@@ -185,6 +206,22 @@ if (Game !== undefined) {
         lookDirection.z = planeIntersection[0].point.z;
       }
       this.character.lookAtWorld(lookDirection);
+
+      // If there's a tetromino attached, then update it's x and y to match
+      // player, as well as it's lookAt
+      if (tetromino) {
+        tetromino.position.x = this.position.x;
+        tetromino.position.z = this.position.z;
+
+        tetromino.lookAtWorld(lookDirection);
+
+        // If the throw flag is active, then throw the tetromino
+        if(throwTetromino) {
+          tetromino.throw();
+          tetromino = null;
+          throwTetromino = false;
+        }
+      }
 
     }
   }

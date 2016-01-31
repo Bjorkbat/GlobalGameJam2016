@@ -5,13 +5,12 @@
 if (Game !== undefined) {
 
   Game.Tetromino = function(type) {
+    THREE.Object3D.call(this);
 
     var COLOR = 0xFF2546;
     var MATERIAL = new THREE.MeshPhongMaterial({color: COLOR});
     var BLOCK_WIDTH = 1;
     var HOVER = 1;
-
-    this.tetromino = new THREE.Object3D();
 
     switch (type) {
 
@@ -19,15 +18,17 @@ if (Game !== undefined) {
         // Generate an I tetromino (straight)
         var iGeo = new THREE.BoxGeometry(BLOCK_WIDTH,
           BLOCK_WIDTH * 4, BLOCK_WIDTH);
-        this.tetromino = new THREE.Mesh(iGeo, MATERIAL);
-        this.tetromino.position.y = 1;
+        var iObject = new THREE.Mesh(iGeo, MATERIAL);
+        this.add(iObject);
+        iObject.translateY(1);
+        this.position.y = 1.5;
         break;
 
       case "o":
         var oGeo = new THREE.BoxGeometry(BLOCK_WIDTH * 2,
           BLOCK_WIDTH * 2, BLOCK_WIDTH);
-        this.tetromino = new THREE.Mesh(oGeo, MATERIAL);
-        this.tetromino.position.y = 1;
+        this.add(new THREE.Mesh(oGeo, MATERIAL));
+        this.position.y = 1.5;
         break;
 
       case "t":
@@ -36,15 +37,15 @@ if (Game !== undefined) {
         var tTopGeo = new THREE.BoxGeometry(BLOCK_WIDTH * 3,
           BLOCK_WIDTH, BLOCK_WIDTH);
         var tTop = new THREE.Mesh(tTopGeo, MATERIAL);
-        this.tetromino.add(tTop);
+        this.add(tTop);
         tTop.translateY(1);
 
         // Add bottom of T
         var tBottomGeo = new THREE.BoxGeometry(BLOCK_WIDTH,
           BLOCK_WIDTH, BLOCK_WIDTH);
         var tBottom = new THREE.Mesh(tBottomGeo, MATERIAL);
-        this.tetromino.add(tBottom);
-        this.tetromino.translateY(1);
+        this.add(tBottom);
+        this.position.y = 1;
         break;
 
       case "j":
@@ -53,16 +54,16 @@ if (Game !== undefined) {
         var jTopGeo = new THREE.BoxGeometry(BLOCK_WIDTH * 3,
           BLOCK_WIDTH, BLOCK_WIDTH);
         var jTop = new THREE.Mesh(jTopGeo, MATERIAL);
-        this.tetromino.add(jTop);
+        this.add(jTop);
         jTop.translateY(1);
 
         // Add bottom of J
         var jBottomGeo = new THREE.BoxGeometry(BLOCK_WIDTH,
           BLOCK_WIDTH, BLOCK_WIDTH);
         var jBottom = new THREE.Mesh(jBottomGeo, MATERIAL);
-        this.tetromino.add(jBottom);
+        this.add(jBottom);
         jBottom.translateX(BLOCK_WIDTH);
-        this.tetromino.translateY(1);
+        this.position.y = 1;
         break;
 
       case "l":
@@ -71,15 +72,15 @@ if (Game !== undefined) {
         var lTopGeo = new THREE.BoxGeometry(BLOCK_WIDTH * 3,
           BLOCK_WIDTH, BLOCK_WIDTH);
         var lTop = new THREE.Mesh(lTopGeo, MATERIAL);
-        this.tetromino.add(lTop);
+        this.add(lTop);
         lTop.translateY(1);
 
         var lBottomGeo = new THREE.BoxGeometry(BLOCK_WIDTH, BLOCK_WIDTH,
           BLOCK_WIDTH);
         var lBottom = new THREE.Mesh(lBottomGeo, MATERIAL);
-        this.tetromino.add(lBottom);
+        this.add(lBottom);
         lBottom.translateX(-BLOCK_WIDTH);
-        this.tetromino.translateY(1);
+        this.position.y = 1;
         break;
 
       case "s":
@@ -88,7 +89,7 @@ if (Game !== undefined) {
         var sTopGeo = new THREE.BoxGeometry(BLOCK_WIDTH * 2, BLOCK_WIDTH,
           BLOCK_WIDTH);
         var sTop = new THREE.Mesh(sTopGeo, MATERIAL);
-        this.tetromino.add(sTop);
+        this.add(sTop);
         sTop.translateY(1);
         sTop.translateX(0.5);
 
@@ -96,9 +97,9 @@ if (Game !== undefined) {
         var sBottomGeo = new THREE.BoxGeometry(BLOCK_WIDTH * 2, BLOCK_WIDTH,
           BLOCK_WIDTH);
         var sBottom = new THREE.Mesh(sBottomGeo, MATERIAL);
-        this.tetromino.add(sBottom);
+        this.add(sBottom);
         sBottom.translateX(-0.5);
-        this.tetromino.translateY(1);
+        this.position.y = 1;
         break;
 
       case "z":
@@ -107,7 +108,7 @@ if (Game !== undefined) {
         var zTopGeo = new THREE.BoxGeometry(BLOCK_WIDTH * 2, BLOCK_WIDTH,
           BLOCK_WIDTH);
         var zTop = new THREE.Mesh(zTopGeo, MATERIAL);
-        this.tetromino.add(zTop);
+        this.add(zTop);
         zTop.translateY(1);
         zTop.translateX(-0.5);
 
@@ -115,12 +116,15 @@ if (Game !== undefined) {
         var zBottomGeo = new THREE.BoxGeometry(BLOCK_WIDTH * 2, BLOCK_WIDTH,
           BLOCK_WIDTH);
         var zBottom = new THREE.Mesh(zBottomGeo, MATERIAL);
-        this.tetromino.add(zBottom);
+        this.add(zBottom);
         zBottom.translateX(0.5);
-        this.tetromino.translateY(1);
+        this.position.y = 1;
+        break;
 
       default:
         console.log("Not a valid tetromino" + type);
     }
   }
+  Game.Tetromino.prototype = new THREE.Object3D();
+  Game.Tetromino.prototype.constructor = Game.Tetromino;
 }

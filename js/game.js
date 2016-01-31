@@ -84,7 +84,7 @@ var Game = {
 
     this.altar.addTetrominos(this.tetrominos);
     for(var i = 0; i < this.tetrominos.length; i ++) {
-      this.scene.add(this.tetrominos[i].tetromino);
+      this.scene.add(this.tetrominos[i]);
     }
 
     // Add player character
@@ -113,7 +113,12 @@ var Game = {
     Game.renderer.render(Game.scene, Game.camera);
 
     // Update player
-    Game.player.update(Game.clock.getDelta(), Game.camera);
+    Game.player.update(Game.clock.getDelta(), Game.camera, Game.tetrominos);
+
+    // Update the tetrominos
+    for (var i = 0; i < tetrominos.length; i ++) {
+      tetrominos[i].update();
+    }
   },
 
   initPointerLock: function() {
