@@ -60,6 +60,13 @@ var Game = {
     this.altar = new Game.Altar();
     this.scene.add(this.altar.altar);
 
+    // Add our tetrominos
+    this.tetrominos = [];
+    this.tetrominos.push(new Game.Tetromino("i"));
+    for (var i = 0; i < this.tetrominos.length; i ++) {
+      this.altar.addTetromino(this.tetrominos[i]);
+    }
+
     this.render();
   },
 

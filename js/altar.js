@@ -53,4 +53,10 @@ if (Game !== undefined) {
     // Translate
     this.altar.position.y = 5;
   }
+
+  // Takes an array of tetrominos (really, any 3D object) and adds them
+  // around the altar, forming a circle of tetrominos
+  Game.Altar.prototype.addTetrominos(tetrominoa) {
+
+  }
 }
