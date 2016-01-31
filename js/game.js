@@ -131,9 +131,28 @@ var Game = {
       Game.wells.expand();
     }
 
-    // Update time
-    Game.timer.updateTime();
+    if (Game.timer.timeLeft > 0) {
+      // Update time
+      Game.timer.updateTime();
+    } else {
+      Game.gameOver();
+    }
+
     Game.renderer.render(Game.scene, Game.camera);
+  },
+
+  gameOver: function() {
+    for(var i = 0; i < Game.ground.cylinders.length; i ++) {
+      Game.scene.remove(Game.ground.cylinders[i]);
+    }
+
+    Game.scene.remove(Game.wells);
+
+    Game.scene.remove(Game.altar.altar);
+
+    for(var i = 0; i < Game.tetrominos.length; i ++) {
+      Game.scene.remove(Game.tetrominos[i]);
+    }
   },
 
   initPointerLock: function() {

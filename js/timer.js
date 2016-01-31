@@ -6,18 +6,18 @@ if (Game !== undefined) {
   Game.Timer = function() {
 
     var clock = new THREE.Clock(true);
-    var timeLeft = 60;
+    this.timeLeft = 60;
 
-    var minutes = Math.floor(timeLeft / 60);
-    var seconds = Math.round(timeLeft % 60);
-    var hundredSeconds = Math.round((timeLeft - Math.floor(timeLeft)) * 100);
+    var minutes = Math.floor(this.timeLeft / 60);
+    var seconds = Math.round(this.timeLeft % 60);
+    var hundredSeconds = Math.round((this.timeLeft - Math.floor(this.timeLeft)) * 100);
 
     this.updateTime = function() {
-      timeLeft -= clock.getDelta();
+      this.timeLeft -= clock.getDelta();
 
-      minutes = Math.floor(timeLeft / 60);
-      seconds = Math.round(timeLeft % 60);
-      hundredSeconds = Math.round((timeLeft - Math.floor(timeLeft)) * 100);
+      minutes = Math.floor(this.timeLeft / 60);
+      seconds = Math.round(this.timeLeft % 60);
+      hundredSeconds = Math.round((this.timeLeft - Math.floor(this.timeLeft)) * 100);
 
       document.getElementById("minutes").innerHTML = minutes;
       document.getElementById("seconds").innerHTML = seconds;
@@ -25,11 +25,27 @@ if (Game !== undefined) {
     }
 
     this.addTime = function() {
-      timeLeft += 5;
+      this.timeLeft += 5;
+
+      minutes = Math.floor(this.timeLeft / 60);
+      seconds = Math.round(this.timeLeft % 60);
+      hundredSeconds = Math.round((this.timeLeft - Math.floor(this.timeLeft)) * 100);
+
+      document.getElementById("minutes").innerHTML = minutes;
+      document.getElementById("seconds").innerHTML = seconds;
+      document.getElementById("hundred").innerHTML = hundredSeconds;
     }
 
     this.subtractTime = function() {
-      timeLeft -= 5;
+      this.timeLeft -= 5;
+
+      minutes = Math.floor(this.timeLeft / 60);
+      seconds = Math.round(this.timeLeft % 60);
+      hundredSeconds = Math.round((this.timeLeft - Math.floor(this.timeLeft)) * 100);
+
+      document.getElementById("minutes").innerHTML = minutes;
+      document.getElementById("seconds").innerHTML = seconds;
+      document.getElementById("hundred").innerHTML = hundredSeconds;
     }
   }
 }
