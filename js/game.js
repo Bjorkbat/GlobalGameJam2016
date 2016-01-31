@@ -75,6 +75,12 @@ var Game = {
       this.scene.add(this.tetrominos[i].tetromino);
     }
 
+    // Add player character
+    this.player = new Game.Player();
+    this.player.translateY(5);
+    this.player.translateX(35);
+    this.scene.add(this.player)
+
     this.render();
   },
 
