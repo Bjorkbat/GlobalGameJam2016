@@ -33,6 +33,28 @@ if (Game !== undefined) {
       }
     }
 
+    this.expand = function() {
+      // Modify and reset well position
+      groupRadius += 20;
+      wellPosition.x = groupRadius
+      wellPosition.y = 3.5;
+      wellPosition.z = 0;
+
+      for(var i = 0; i < this.wells.length; i ++) {
+
+        // Reset well
+        this.wells[i].position.x = 0;
+        this.wells[i].position.y = 0;
+        this.wells[i].position.z = 0;
+
+        // Find position
+        wellPosition.applyAxisAngle(rotationAxis, radianPerWell);
+        this.wells[i].translateX(wellPosition.x);
+        this.wells[i].translateY(wellPosition.y);
+        this.wells[i].translateZ(wellPosition.z);
+      }
+    }
+
   }
   Game.WellCluster.prototype = new THREE.Object3D();
   Game.WellCluster.prototype.constructor = Game.WellCluster;

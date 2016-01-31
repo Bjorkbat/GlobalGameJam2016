@@ -54,7 +54,7 @@ var Game = {
     this.ground = new Game.Ground();
     this.ground.addRing();
     this.ground.addRing();
-    for(var i = 0; i < this.ground.cylinders.length; i ++) {
+    for(var i = 0; i < 1; i ++) {
       this.scene.add(this.ground.cylinders[i]);
     }
 
@@ -79,11 +79,7 @@ var Game = {
     for(var i = 0; i < this.blockTypes.length; i ++) {
       this.tetrominos.push(new Game.Tetromino(this.blockTypes[i]));
     }
-
     this.altar.addTetrominos(this.tetrominos);
-    for(var i = 0; i < this.tetrominos.length; i ++) {
-      this.scene.add(this.tetrominos[i]);
-    }
 
     // Add player character
     this.player = new Game.Player();
@@ -121,8 +117,18 @@ var Game = {
     Game.player.update(clockdelta, Game.camera, Game.tetrominos);
 
     // Update the tetrominos
+    var tetsActive = false;
     for (var i = 0; i < Game.tetrominos.length; i ++) {
       Game.tetrominos[i].update(clockdelta);
+      if (Game.tetrominos[i].active == true) {
+        tetsActive = true;
+      }
+    }
+
+    if (tetsActive == false) {
+      Game.altar.addTetrominos(Game.tetrominos);
+      Game.ground.addRing();
+      Game.wells.expand();
     }
 
     // Update time

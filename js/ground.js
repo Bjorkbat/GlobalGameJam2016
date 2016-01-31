@@ -93,6 +93,8 @@ if (Game !== undefined) {
     cap.lookAt(new THREE.Vector3(0, 1, 0));
     cap.position.y = this.THICKNESS / 2;
     cylinder.add(cap);
+    Game.scene.add(cylinder)
     this.cylinders.push(cylinder);
+
   };
 }

@@ -165,6 +165,7 @@ if (Game !== undefined) {
           }
           Game.scene.remove(this);
           speed = 0;
+          this.active = false;
         }
       }
     }
