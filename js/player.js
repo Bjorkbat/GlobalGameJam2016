@@ -212,6 +212,7 @@ if (Game !== undefined) {
       if (tetromino) {
         tetromino.position.x = this.position.x;
         tetromino.position.z = this.position.z;
+        lookDirection.y = tetromino.position.y;
 
         tetromino.lookAtWorld(lookDirection);
 

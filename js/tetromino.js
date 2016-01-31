@@ -7,10 +7,16 @@ if (Game !== undefined) {
   Game.Tetromino = function(type) {
     THREE.Object3D.call(this);
 
+    this.homeHeight = 0;
+
     var COLOR = 0xFF2546;
     var MATERIAL = new THREE.MeshPhongMaterial({color: COLOR});
     var BLOCK_WIDTH = 1;
     var HOVER = 1;
+
+    var speed = 0;
+    var friction = 10;
+    var gravity = 0.5;
 
     switch (type) {
 
@@ -124,6 +130,26 @@ if (Game !== undefined) {
       default:
         console.log("Not a valid tetromino" + type);
     }
+    this.type = type;
+
+    this.update = function(delta) {
+      this.translateZ(speed * delta);
+      if (speed > 0) {
+        speed -= friction;
+        if (speed < 0) {
+          speed = 0;
+        }
+
+        if (this.position.y > this.homeHeight) {
+          this.position.y -= gravity;
+        }
+      }
+    }
+
+    this.throw = function() {
+      speed = 200;
+    }
+
   }
   Game.Tetromino.prototype = new THREE.Object3D();
   Game.Tetromino.prototype.constructor = Game.Tetromino;

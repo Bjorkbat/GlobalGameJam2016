@@ -73,6 +73,9 @@ if (Game !== undefined) {
       tetrominos[i].translateX(this.tetraPosition.x);
       tetrominos[i].translateY(this.tetraPosition.y);
       tetrominos[i].translateZ(this.tetraPosition.z);
+
+      // Save current position as home
+      tetrominos[i].homeHeight = tetrominos[i].position.y;
     }
 
   };

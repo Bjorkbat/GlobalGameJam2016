@@ -102,6 +102,9 @@ var Game = {
 
   render: function() {
     requestAnimationFrame(Game.render);
+
+    var clockdelta = Game.clock.getDelta();
+
     var flip = 1;
     for(var i = 1; i < Game.ground.cylinders.length; i ++) {
       Game.ground.cylinders[i].rotation.y += 0.002 * flip;
@@ -113,11 +116,11 @@ var Game = {
     Game.renderer.render(Game.scene, Game.camera);
 
     // Update player
-    Game.player.update(Game.clock.getDelta(), Game.camera, Game.tetrominos);
+    Game.player.update(clockdelta, Game.camera, Game.tetrominos);
 
     // Update the tetrominos
-    for (var i = 0; i < tetrominos.length; i ++) {
-      tetrominos[i].update();
+    for (var i = 0; i < Game.tetrominos.length; i ++) {
+      Game.tetrominos[i].update(clockdelta);
     }
   },
 
