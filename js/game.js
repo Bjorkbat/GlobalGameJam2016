@@ -6,7 +6,7 @@ var Game = {
 
   create: function() {
 
-    Game.initPointerLock();
+    //Game.initPointerLock();
 
     this.blockTypes = ["i", "o", "t", "j", "l", "s", "z"];
 
